@@ -27,8 +27,9 @@ function App() {
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <h2> email: {loggedInUser.email} </h2>
-      <Header></Header>
+      
       <Router>
+      <Header></Header>
         <Switch>
 
           <Route path="/shop">
