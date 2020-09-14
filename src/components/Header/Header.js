@@ -14,7 +14,7 @@ const Header = () => {
                 <Link to="/shop">Shop</Link>
                 <Link to="/review">Order Review</Link>
                 <Link to="/inventory">Manage Inventory</Link>
-                <button onClick={()=>setLoggedInUser({})} >Sign Out</button>
+                <button className="signOutBtn" onClick={()=>setLoggedInUser({})} >Sign Out</button>
             </nav>
         </div>
     );
