@@ -95,10 +95,10 @@ const handleSubmit = (e)=>{
     <div style={{textAlign:'center'}}>
       {
         user.isSignedIn ? <button onClick={signOut} > Sign out </button> :
-        <button onClick={googleSignIn} > Sign in </button>
+        <button onClick={googleSignIn} > Sign in with Google </button>
       }
       <br/>
-      <button onClick={fbSignIn} >Sign in using facebook</button>
+      <button style={{margin:'5px'}} onClick={fbSignIn} >Sign in using facebook</button>
 
       {
         user.isSignedIn && <div>

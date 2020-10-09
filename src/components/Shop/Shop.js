@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import fakeData from '../../fakeData';
 import './Shop.css';
 import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
@@ -8,20 +7,33 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Shop = () => {
-    const first10 = fakeData.slice(0, 10);
-    const [products, setProducts] = useState(first10);
+   
+    const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const [search, setSearch] = useState('');
+
+    useEffect(() => {
+        fetch('https://warm-spire-92462.herokuapp.com/products?search='+search)
+        .then( res => res.json())
+        .then( data => setProducts(data))
+    }, [search])
 
     useEffect(()=>{
         const savedCart = getDatabaseCart();
         const productKeys = Object.keys(savedCart);
-        const previousCart = productKeys.map( existingKey =>{
-            const product = fakeData.find( pd => pd.key === existingKey);
-            product.quantity = savedCart[existingKey];
-            return product;
+        fetch('https://warm-spire-92462.herokuapp.com/productsByKeys', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(productKeys)
         })
-        setCart(previousCart);
+
+        .then( res => res.json())
+        .then( data => setCart(data))
     },[]);
+
+    const handleSearch = event => {
+        setSearch(event.target.value)
+    }
 
     const handleAddProduct = (product)=>{
         const toBeAddedKey = product.key;
@@ -44,6 +56,7 @@ const Shop = () => {
     return (
         <div className='twin-container'>
             <div className="product-container">
+                <input type="text" onBlur ={handleSearch} className="product-search" placeholder="Search"/>
                 {
                     products.map(pd=> <Product
                         key={pd.key}

@@ -40,7 +40,7 @@ function App() {
             <Review></Review>
           </Route>
 
-          <PrivateRoute path="/inventory">
+          <PrivateRoute path="/orders">
             <Inventory></Inventory>
           </PrivateRoute>
 

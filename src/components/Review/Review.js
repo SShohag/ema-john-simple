@@ -2,7 +2,6 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { getDatabaseCart, removeFromDatabaseCart, processOrder } from '../../utilities/databaseManager';
-import fakeData from '../../fakeData';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import Cart from '../Cart/Cart';
 import happyImage from '../../images/giphy.gif';
@@ -29,13 +28,16 @@ const Review = () => {
     useEffect(()=>{
 
         const saveCart = getDatabaseCart ();
-        const productKey = Object.keys(saveCart);
-        const cartProducts =  productKey.map(key => {
-            const product = fakeData.find( pd => pd.key === key)
-            product.quantity = saveCart[key];
-            return product;
+        const productKeys = Object.keys(saveCart);
+
+        fetch('https://warm-spire-92462.herokuapp.com/productsByKeys', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(productKeys)
         })
-        setCart(cartProducts);
+
+        .then( res => res.json())
+        .then( data => setCart(data))
 
     },[]);
 
